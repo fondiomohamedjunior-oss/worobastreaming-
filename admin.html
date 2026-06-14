@@ -1,35 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin - Woroba Streaming</title>
-</head>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-<body>
-  <h1>🎧 Panel Admin Woroba Streaming</h1>
-
-  <h3>Ajouter un son</h3>
-
-  <input type="text" id="title" placeholder="Titre du son"><br><br>
-  <input type="text" id="artist" placeholder="Artiste"><br><br>
-  <input type="file" id="audioFile"><br><br>
-
-  <button onclick="uploadMusic()">Uploader</button>
-
-  <hr>
-
-  <h3>Liste des sons</h3>
-  <div id="list"></div>
-
-</body>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
-
-<script>
-  // 🔥 CONFIG FIREBASE (remplace avec ton projet)
   const firebaseConfig = {
     apiKey: "TON_API_KEY",
     authDomain: "TON_PROJECT.firebaseapp.com",
@@ -39,71 +12,56 @@
     appId: "XXXX"
   };
 
-  firebase.initializeApp(firebaseConfig);
-
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
 
   // 📤 UPLOAD MUSIC
-  function uploadMusic() {
-    let title = document.getElementById("title").value;
-    let artist = document.getElementById("artist").value;
-    let file = document.getElementById("audioFile").files[0];
+  window.uploadMusic = async function () {
+    const title = document.getElementById("title").value;
+    const artist = document.getElementById("artist").value;
+    const file = document.getElementById("audioFile").files[0];
 
     if (!file) {
       alert("Choisis un fichier audio");
       return;
     }
 
-    let uploadTask = storage.ref("music/" + file.name).put(file);
+    const storageRef = ref(storage, "music/" + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
 
-    uploadTask.on("state_changed",
+    await addDoc(collection(db, "songs"), {
+      title,
+      artist,
+      url,
+      created: Date.now()
+    });
 
-      null,
-
-      (error) => {
-        alert("Erreur upload");
-      },
-
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-
-          db.collection("songs").add({
-            title: title,
-            artist: artist,
-            url: url,
-            created: Date.now()
-          });
-
-          alert("Son ajouté !");
-          loadSongs();
-        });
-      }
-    );
+    alert("✅ Son ajouté !");
+    loadSongs();
   }
 
-  // 📥 AFFICHER LES SONS
-  function loadSongs() {
-    document.getElementById("list").innerHTML = "";
+  // 📥 LOAD MUSIC
+  async function loadSongs() {
+    const list = document.getElementById("list");
+    list.innerHTML = "";
 
-    db.collection("songs").orderBy("created", "desc").get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          let data = doc.data();
+    const q = query(collection(db, "songs"), orderBy("created", "desc"));
+    const querySnapshot = await getDocs(q);
 
-          document.getElementById("list").innerHTML += `
-            <p>
-              🎵 ${data.title} - ${data.artist}
-              <br>
-              <audio controls src="${data.url}"></audio>
-            </p>
-            <hr>
-          `;
-        });
-      });
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      list.innerHTML += `
+        <p>
+          🎵 ${data.title} - ${data.artist}<br>
+          <audio controls src="${data.url}"></audio>
+        </p>
+        <hr>
+      `;
+    });
   }
 
   loadSongs();
 </script>
-
-</html>
