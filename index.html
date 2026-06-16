@@ -1,18 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSMA-STREAMING</title>
+
 <style>
+
 body{
-    font-family:Arial,sans-serif;
+    margin:0;
+    font-family:Arial, sans-serif;
     background:#111;
     color:white;
     text-align:center;
-    margin:0;
 }
 
 header{
     background:#ff7a00;
     padding:25px;
-    font-size:28px;
+    font-size:30px;
     font-weight:bold;
-    color:white;
     animation:fadeIn 1s ease;
 }
 
@@ -36,9 +43,10 @@ header small{
     text-decoration:none;
     border-radius:15px;
     font-weight:bold;
-    transition:all 0.3s ease;
+    font-size:18px;
+    transition:0.3s;
+    box-shadow:0 4px 12px rgba(0,0,0,0.5);
     animation:slideUp 0.6s ease;
-    box-shadow:0 4px 12px rgba(0,0,0,0.4);
 }
 
 .artist:hover{
@@ -50,17 +58,12 @@ header small{
     transform:scale(0.95);
 }
 
-h2{
-    animation:fadeIn 1.2s ease;
-}
-
 footer{
     margin:30px 0;
-    font-size:13px;
     color:#ccc;
+    font-size:13px;
 }
 
-/* Animation apparition */
 @keyframes fadeIn{
     from{
         opacity:0;
@@ -81,20 +84,51 @@ footer{
     }
 }
 
-/* Effet pulsation */
-@keyframes pulse{
-    0%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.03);
-    }
-    100%{
-        transform:scale(1);
-    }
-}
-
-.artist{
-    animation:slideUp 0.6s ease, pulse 3s infinite;
-}
 </style>
+
+</head>
+<body>
+
+<header>
+🎧 JSMA-STREAMING
+<small>Je Soutiens Mon Artiste</small>
+</header>
+
+<div class="container">
+
+<h2>🎤 NOS ARTISTES</h2>
+
+<a class="artist" href="artistes/chidochi.html">CHIDOCHI</a>
+
+<a class="artist" href="artistes/mc-flash.html">MC FLASH</a>
+
+<a class="artist" href="artistes/king-meduza.html">KING MEDUZA</a>
+
+<a class="artist" href="artistes/mk-le-roi-chibi.html">MK LE ROI CHIBI</a>
+
+<a class="artist" href="artistes/dj-tk.html">DJ TK</a>
+
+<a class="artist" href="artistes/kitno.html">KITNO</a>
+
+<a class="artist" href="artistes/ibsonne.html">IBSONNE</a>
+
+<a class="artist" href="artistes/mato-cascadeur.html">MATO CASCADEUR</a>
+
+<a class="artist" href="artistes/rossi-warika.html">ROSSI WARIKA</a>
+
+<a class="artist" href="artistes/hk-delie.html">HK DELIE</a>
+
+<a class="artist" href="artistes/fantome-s2fnk.html">FANTOME S2FNK</a>
+
+<a class="artist" href="artistes/didi-christ.html">DIDI CHRIST</a>
+
+<a class="artist" href="artistes/r-boss.html">R_BOSS</a>
+
+</div>
+
+<footer>
+© JSMA-STREAMING - Je Soutiens Mon Artiste
+</footer>
+
+</body>
+</html>
