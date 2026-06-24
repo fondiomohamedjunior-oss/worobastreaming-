@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statistiques Artiste</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#111;
+color:white;
+text-align:center;
+}
+
+header{
+background:#ff7a00;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+}
+
+.card{
+background:#222;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(255,122,0,.4);
+}
+
+input{
+width:80%;
+padding:12px;
+margin:10px;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+background:#ff7a00;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.stats{
+display:none;
+}
+
+.stat{
+font-size:22px;
+margin:15px 0;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+📊 STATISTIQUES ARTISTE
+</header>
+
+<div class="card">
+
+<h2>DM95 🇨🇮</h2>
+
+<input type="password" id="code" placeholder="Code artiste">
+
+<br>
+
+<button onclick="verifier()">
+Voir mes statistiques
+</button>
+
+<div class="stats" id="stats">
+
+<h3>⭐ Artiste Vérifié</h3>
+
+<div class="stat">
+📥 Téléchargements : 0
+</div>
+
+<div class="stat">
+💿 EP : 1
+</div>
+
+<div class="stat">
+📀 Albums : 0
+</div>
+
+<div class="stat">
+💰 Revenus : 0 FCFA
+</div>
+
+</div>
+
+</div>
+
+<script>
+function verifier(){
+
+let code=document.getElementById("code").value;
+
+if(code==="DM95-500"){
+document.getElementById("stats").style.display="block";
+}else{
+alert("Code incorrect");
+}
+
+}
+</script>
+
+</body>
+</html>
