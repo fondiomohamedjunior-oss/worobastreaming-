@@ -141,10 +141,9 @@ body{
 <div class="indispo">❌ PAS ENCORE DISPONIBLE</div>
 </div>
 
-<a href="stats.html" class="btn">
+<a id="btnStats" href="#" class="btn">
 📈 VOIR MES STATISTIQUES
 </a>
-
 </div>
 
 
@@ -306,7 +305,9 @@ document.getElementById("nom").textContent = artiste;
 document.getElementById("bio").textContent = artistes[artiste].bio;
 document.getElementById("photo").src = artistes[artiste].photo;
 document.getElementById("flag").textContent = artistes[artiste].flag;
-
+document.getElementById("btnStats").href =
+"stats.html?artiste="+encodeURIComponent(artiste);
+    
 if(eps[artiste]){
 
 document.getElementById("ep-zone").innerHTML=`
