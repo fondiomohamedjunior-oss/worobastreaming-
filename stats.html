@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statistiques Artiste</title>
+<title>Statistiques Artiste - JSMA-STREAMING</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -17,85 +18,151 @@ text-align:center;
 header{
 background:#ff7a00;
 padding:20px;
-font-size:28px;
-font-weight:bold;
+}
+
+.logo{
+width:120px;
+border-radius:15px;
 }
 
 .card{
-background:#222;
-margin:20px;
-padding:20px;
+width:90%;
+max-width:500px;
+margin:20px auto;
+background:#1a1a1a;
 border-radius:20px;
+padding:20px;
 box-shadow:0 0 20px rgba(255,122,0,.4);
+animation:fade .8s;
+}
+
+.photo{
+width:160px;
+height:160px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid #ff7a00;
+box-shadow:0 0 20px #ff7a00;
+}
+
+.flag{
+font-size:35px;
+margin-top:10px;
+}
+
+.nom{
+font-size:28px;
+font-weight:bold;
+color:#ff7a00;
+margin-top:10px;
 }
 
 input{
-width:80%;
-padding:12px;
-margin:10px;
+width:90%;
+padding:14px;
+margin:10px 0;
 border:none;
 border-radius:10px;
 font-size:16px;
 }
 
 button{
+width:90%;
+padding:15px;
 background:#ff7a00;
 color:white;
 border:none;
-padding:12px 25px;
-border-radius:10px;
-font-size:16px;
+border-radius:12px;
+font-size:17px;
 font-weight:bold;
 cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#ffb347;
+color:black;
 }
 
 .stats{
 display:none;
+margin-top:20px;
 }
 
-.stat{
-font-size:22px;
-margin:15px 0;
+.box{
+background:#222;
+padding:15px;
+margin:12px 0;
+border-radius:12px;
+font-size:18px;
 }
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-📊 STATISTIQUES ARTISTE
+
+<img src="images/logo.jpg" class="logo">
+
 </header>
 
 <div class="card">
 
-<h2>DM95 🇨🇮</h2>
+<img id="photo" class="photo">
 
-<input type="password" id="code" placeholder="Code artiste">
+<div id="flag" class="flag"></div>
 
-<br>
+<div id="nom" class="nom"></div>
 
-<button onclick="verifier()">
-Voir mes statistiques
+<input
+type="password"
+id="code"
+placeholder="Entrez votre code artiste">
+
+<button onclick="ouvrirStats()">
+
+📊 VOIR MES STATISTIQUES
+
 </button>
 
-<div class="stats" id="stats">
+<div id="stats" class="stats">
 
-<h3>⭐ Artiste Vérifié</h3>
-
-<div class="stat">
-📥 Téléchargements : 0
+<div class="box">
+📥 Téléchargements :
+<span id="telechargements"></span>
 </div>
 
-<div class="stat">
-💿 EP : 1
+<div class="box">
+💿 EP :
+<span id="ep"></span>
 </div>
 
-<div class="stat">
-📀 Albums : 0
+<div class="box">
+📀 Albums :
+<span id="albums"></span>
 </div>
 
-<div class="stat">
-💰 Revenus : 0 FCFA
+<div class="box">
+💰 Revenus :
+<span id="revenus"></span>
+</div>
+
+<div class="box">
+⭐
+<span id="badge"></span>
 </div>
 
 </div>
@@ -103,14 +170,93 @@ Voir mes statistiques
 </div>
 
 <script>
-function verifier(){
+
+  const params = new URLSearchParams(window.location.search);
+const artiste = params.get("artiste");
+
+const artistes = {
+
+"DM95":{
+photo:"images/dm95.jpg",
+flag:"🇨🇮",
+code:"DM95-3000",
+telechargements:"0",
+ep:"1",
+albums:"0",
+revenus:"0 FCFA",
+badge:"Artiste Vérifié ✅"
+},
+
+"CHIDOCHI":{
+photo:"images/chidochi.jpg",
+flag:"🇨🇮",
+code:"CHIDOCHI-3000",
+telechargements:"0",
+ep:"0",
+albums:"0",
+revenus:"0 FCFA",
+badge:"Artiste Vérifié ✅"
+},
+
+"KING MEDUZA":{
+photo:"images/king-meduza.jpg",
+flag:"🇨🇮",
+code:"KING-3000",
+telechargements:"0",
+ep:"0",
+albums:"0",
+revenus:"0 FCFA",
+badge:"Artiste Vérifié ✅"
+},
+
+"BKH142Z":{
+photo:"images/bkh142z.jpg",
+flag:"🇨🇮",
+code:"BKH-3000",
+telechargements:"0",
+ep:"0",
+albums:"0",
+revenus:"0 FCFA",
+badge:"Artiste Vérifié ✅"
+}
+
+};
+
+if(artistes[artiste]){
+
+document.getElementById("photo").src=artistes[artiste].photo;
+document.getElementById("flag").textContent=artistes[artiste].flag;
+document.getElementById("nom").textContent=artiste;
+
+}
+
+function ouvrirStats(){
+
+if(!artistes[artiste]){
+alert("Artiste introuvable");
+return;
+}
 
 let code=document.getElementById("code").value;
 
-if(code==="DM953000"){
+if(code===artistes[artiste].code){
+
 document.getElementById("stats").style.display="block";
+
+document.getElementById("telechargements").textContent=artistes[artiste].telechargements;
+
+document.getElementById("ep").textContent=artistes[artiste].ep;
+
+document.getElementById("albums").textContent=artistes[artiste].albums;
+
+document.getElementById("revenus").textContent=artistes[artiste].revenus;
+
+document.getElementById("badge").textContent=artistes[artiste].badge;
+
 }else{
-alert("Code incorrect");
+
+alert("❌ Code incorrect");
+
 }
 
 }
